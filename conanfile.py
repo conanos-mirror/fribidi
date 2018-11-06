@@ -25,7 +25,6 @@ class FribidiConan(ConanFile):
         with tools.chdir(self.source_subfolder):
             #self.run("autoreconf -f -i")
 
-            autotools = AutoToolsBuildEnvironment(self)
             _args = ["--prefix=%s/builddir"%(os.getcwd())]
             if self.options.shared:
                 _args.extend(['--enable-shared=yes','--enable-static=no'])
@@ -35,14 +34,6 @@ class FribidiConan(ConanFile):
             self.run('./configure %s'%(' '.join(_args)))
             self.run('make -j4')
             self.run('make install')
-
-            #self.run("autoreconf -f -i")
-            #copyfile("%s/data/autotools/config.guess"%(self.cerbero_root), "%s/config.guess"%(os.getcwd()))
-            #copyfile("%s/data/autotools/config.sub"%(self.cerbero_root), "%s/config.sub"%(os.getcwd()))
-            #self.run('./configure --prefix %s/build --libdir %s/build/lib --disable-maintainer-mode'
-            #    ' --disable-silent-rules --enable-introspection --enable-shared --enable-static'%(os.getcwd(),os.getcwd()))
-            #self.run('make -j4')
-            #self.run('make install')
 
     def package(self):
         if tools.os_info.is_linux:
